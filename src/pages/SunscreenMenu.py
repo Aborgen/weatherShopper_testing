@@ -2,15 +2,15 @@ from .Menu import Item, Menu
 from .Page import Page
 from enum import Enum
 from selenium import webdriver
-from typing import List, NamedTuple
+from typing import List, NamedTuple, Optional
 
 class Categories(Enum):
   SPF30 = 'spf30'
   SPF50 = 'spf50'
 
 class SunscreenMenu(Page, Menu):
-  def __init__(self, driver: webdriver, url: str):
-    super().__init__(driver, url)
+  def __init__(self, driver: webdriver, baseUrl: str, previousUrl: Optional[str] = None):
+    super().__init__(driver, baseUrl, self.__class__.PATH(), previousUrl)
 
   # Splits all products on page into available categories and sorts them by
   # price ascending.
@@ -43,5 +43,10 @@ class SunscreenMenu(Page, Menu):
   def toCart(self) -> Page:
     button = self._driver.find_element_by_xpath("//button[contains(text(), 'Cart')]")
     button.click()
+    previousUrl = self._baseUrl + self._path
     return button
+
+  @staticmethod
+  def PATH() -> str:
+    return '/sunscreen'
 

@@ -2,15 +2,15 @@ from .Menu import Item, Menu
 from .Page import Page
 from enum import Enum
 from selenium import webdriver
-from typing import List, NamedTuple
+from typing import List, NamedTuple, Optional
 
 class Categories(Enum):
   ALOE   = 'aloe'
   ALMOND = 'almond'
 
 class MoisturizerMenu(Page, Menu):
-  def __init__(self, driver: webdriver, url: str):
-    super().__init__(driver, url)
+  def __init__(self, driver: webdriver, baseUrl: str, path: str, previousUrl: Optional[str] = None):
+    super().__init__(driver, baseUrl, self.__class__.PATH(), previousUrl)
 
   # Splits all products on page into available categories and sorts them by
   # price ascending.
@@ -42,3 +42,8 @@ class MoisturizerMenu(Page, Menu):
     button = self._driver.find_element_by_xpath("//button[contains(text(), 'Cart')]")
     button.click()
     return button
+
+  @staticmethod
+  def PATH() -> str:
+    return '/moisturizer'
+    
