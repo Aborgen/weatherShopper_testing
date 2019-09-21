@@ -20,8 +20,13 @@ if __name__ == '__main__':
 
   products = menu.digest()
   # For each category, add the least expensive item
+  expectedItems = []
   for category, items in products.items():
     cheapestItem = items[0]
+    expectedItems.append(cheapestItem)
     cheapestItem.addToCart()
 
-
+  cart = menu.toCart()
+  status = cart.verifyItems(expectedItems)
+  print(status)
+  assert status
