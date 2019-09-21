@@ -1,3 +1,4 @@
+from .Cart import Cart
 from .Menu import Item, Menu
 from .Page import Page
 from enum import Enum
@@ -44,7 +45,7 @@ class SunscreenMenu(Page, Menu):
     button = self._driver.find_element_by_xpath("//button[contains(text(), 'Cart')]")
     button.click()
     previousUrl = self._baseUrl + self._path
-    return button
+    return Cart(self._driver, self._baseUrl, previousUrl)
 
   @staticmethod
   def PATH() -> str:
