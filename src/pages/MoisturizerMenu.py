@@ -10,7 +10,7 @@ class Categories(Enum):
   ALMOND = 'almond'
 
 class MoisturizerMenu(Page, Menu):
-  def __init__(self, driver: webdriver, baseUrl: str, path: str, previousUrl: Optional[str] = None):
+  def __init__(self, driver: webdriver, baseUrl: str, previousUrl: Optional[str] = None):
     super().__init__(driver, baseUrl, self.__class__.PATH(), previousUrl)
 
   # Splits all products on page into available categories and sorts them by
