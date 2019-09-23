@@ -27,6 +27,6 @@ if __name__ == '__main__':
     cheapestItem.addToCart()
 
   cart = menu.toCart()
-  status = cart.verifyItems(expectedItems)
+  status = cart.verify(expectedItems)
   print(status)
   assert status
