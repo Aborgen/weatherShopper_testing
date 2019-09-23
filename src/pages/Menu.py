@@ -4,7 +4,7 @@ from typing import List, NamedTuple
 
 class Item(NamedTuple):
   name      : str
-  price     : str
+  price     : int
   addToCart : object
 
 class Menu(ABC):

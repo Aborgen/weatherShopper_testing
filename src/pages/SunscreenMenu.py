@@ -33,7 +33,7 @@ class SunscreenMenu(Page, Menu):
       for element in elements:
         tags = element.find_elements_by_tag_name('p')
         name = tags[0].text
-        price = tags[1].text.split(' ')[-1]
+        price = int(tags[1].text.split(' ')[-1])
         button = element.find_element_by_tag_name('button')
         items.append(Item(name, price, button.click))
 
