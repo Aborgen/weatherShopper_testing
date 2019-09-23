@@ -9,10 +9,12 @@ class Cart(Page):
 
   def verify(self, expectedItems: List[Item]):
     itemPairs = []
+    total = 0
     for name, price, _ in expectedItems:
       itemPairs.append((name, price))
+      total += int(price)
 
-    return self.verifyItems(itemPairs)
+    return self.verifyTotal(total) and self.verifyItems(itemPairs)
 
   def verifyItems(self, itemPairs: List[Tuple[str, str]]):
     rows = self._driver.find_elements_by_xpath("//table/tbody/tr")
@@ -23,6 +25,9 @@ class Cart(Page):
     
     return sorted(itemPairs) == sorted(presentPairs)
 
+  def verifyTotal(self, expectedTotal: int):
+    presentTotal = self._driver.find_element_by_id('total').text.split(' ')[-1]
+    return expectedTotal == int(presentTotal)
 
   @staticmethod
   def PATH() -> str:
