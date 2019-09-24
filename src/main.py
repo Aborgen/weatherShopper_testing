@@ -27,8 +27,14 @@ if __name__ == '__main__':
     cheapestItem.addToCart()
 
   cart = menu.toCart()
-  status = cart.verify(expectedItems)
   # Ensure that the cart is correct
-  print(status)
-  assert status
+  assert cart.verify(expectedItems)
   cart.pay()
+
+  # Ensure that the payment was successful. There is a 5% chance of failure.
+  confirmation = cart.toConfirmation()
+  assert confirmation.status()
+
+  print("Closing driver...")
+  driver.quit()
+  print("Test complete!")
