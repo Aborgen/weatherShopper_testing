@@ -1,3 +1,4 @@
+from .Confirmation import Confirmation
 from .Menu import Item
 from .Page import Page
 from datetime import datetime
@@ -48,7 +49,18 @@ class Cart(Page):
     except:
       raise Exception
 
-    return Payment(self._driver).pay()
+    Payment(self._driver).pay()
+    # Once we have paid, we don't need to be in the iframe anymore
+    self._driver.switch_to.default_content()
+
+  def toConfirmation(self):
+    try:
+      page = WebDriverWait(self._driver, 10).until(EC.presence_of_element_located((By.XPATH, "//h2[contains(text(), 'PAYMENT')]")))
+    except:
+      raise Exception
+
+    previousUrl = self._baseUrl + self._path
+    return Confirmation(self._driver, self._baseUrl, previousUrl)
 
 class Payment():
   class Credentials(NamedTuple):
@@ -91,9 +103,8 @@ class Payment():
     # Submit
     button = self._driver.find_element_by_xpath("//button[@type='submit']")
     button.click()
-    return button
 
-  def _initCredentials(self):
+  def _initCredentials(self) -> Credentials:
     email = "Test@test.test"
     cardNumber = "4242424242424242"
     now = datetime.now()
