@@ -28,5 +28,7 @@ if __name__ == '__main__':
 
   cart = menu.toCart()
   status = cart.verify(expectedItems)
+  # Ensure that the cart is correct
   print(status)
   assert status
+  cart.pay()
