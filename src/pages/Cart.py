@@ -84,7 +84,13 @@ class Payment():
     self._creds = self._initCredentials()
 
   def pay(self):
-    fields = self._driver.find_elements_by_xpath("//form[@class='Modal-form']//div[@class='Textbox-inputRow']/input")
+    locator = "//form[@class='Modal-form']//div[@class='Textbox-inputRow']/input"
+    try:
+      WebDriverWait(self._driver, 2).until(EC.presence_of_element_located((By.XPATH, locator)))
+    except:
+      raise Exception
+
+    fields = self._driver.find_elements_by_xpath(locator)
     fields[self.Fields.EMAIL.value].send_keys(self._creds.email)
     fields[self.Fields.CARD.value].send_keys(self._creds.cardNumber)
     fields[self.Fields.DATE.value].send_keys(self._creds.expirationDate)
